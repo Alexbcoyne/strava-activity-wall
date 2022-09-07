@@ -3,7 +3,13 @@ const auth_link = "https://www.strava.com/oauth/token";
 function getActivities(res) {
     const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
     fetch(activities_link)
-        .then((res) => console.log(res.json()));
+        .then(function(response) {
+            response.json().then(function(activityDates) {
+                activityDates.forEach(function(activityDate) {
+                    console.log(activityDate.start_date);
+                })
+            })
+        })
 }
 
 
