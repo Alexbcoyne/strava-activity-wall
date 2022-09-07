@@ -6,12 +6,21 @@ function getActivities(res) {
         .then(function(response) {
             response.json().then(function(activityDates) {
                 activityDates.forEach(function(activityDate) {
-                    console.log(activityDate.start_date);
+                    const dates = activityDate.start_date;
+                    console.log(dates);
                 })
             })
-        })
+        });
+    var cal = new CalHeatMap();
+    cal.init({
+        domain: "year",
+        subDomain: "day",
+        data: dates,
+        cellSize: 10,
+        range: 1,
+        legend: [20, 40, 60, 80]
+    });
 }
-
 
 function reAuthorize(){
     fetch(auth_link,{
@@ -32,4 +41,3 @@ function reAuthorize(){
 }
 
 reAuthorize();
-
