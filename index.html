@@ -5,11 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strava Activity Wall</title>
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
 </head>
 <body>
     <h1>Strava Activity Wall</h1>
     <p id="dates"></p>
-    
+    <div id="cal-heatmap"></div>
+    <script type="text/javascript">
+        var cal = new CalHeatMap();
+        cal.init({
+            domain: "year",
+            subDomain: "day",
+            data: "datas-years.json",
+            cellSize: 10,
+            range: 1,
+            legend: [20, 40, 60, 80]
+        });
+    </script>
     <script src="strava_api.js"></script>
 </body>
 </html>
