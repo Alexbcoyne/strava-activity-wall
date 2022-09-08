@@ -4,10 +4,11 @@ function getActivities(res) {
     const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
     fetch(activities_link)
         .then(function(response) {
-            response.json().then(function(activityDates) {
-                activityDates.forEach(function(activityDate) {
-                    const dates = activityDate.start_date;
-                    console.log(dates);
+            response.json().then(function(activities) {
+                activities.forEach(function(activity) {
+                    const dates = activity.start_date;
+                    const duration = activity.elapsed_time;
+                    console.log(dates + " | " + duration);
                 })
             })
         });
