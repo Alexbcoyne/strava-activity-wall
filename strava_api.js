@@ -2,25 +2,23 @@ const auth_link = "https://www.strava.com/oauth/token";
 
 function getActivities(res) {
     const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
-    fetch(activities_link)
-        .then(function(response) {
-            response.json().then(function(activities) {
-                activities.forEach(function(activity) {
-                    const dates = activity.start_date;
-                    const duration = activity.elapsed_time;
-                    console.log(dates + " | " + duration);
-                })
-            })
-        });
     var cal = new CalHeatMap();
-    cal.init({
-        domain: "year",
-        subDomain: "day",
-        //data: dates,
-        cellSize: 10,
-        range: 1,
-        legend: [20, 40, 60, 80]
-    });
+    fetch(activities_link)
+        .then(res => res.json())
+        .then(json => {
+            for (let i = 0; i < json.length; i++) {
+                let date = json[i].start_date
+                console.log(date);
+            }
+            cal.init({
+                domain: "year",
+                subDomain: "day",
+                //data: date,
+                cellSize: 16,
+                range: 1,
+                legend: [20, 40, 60, 80]
+            });
+        })
 }
 
 function reAuthorize(){
@@ -42,3 +40,4 @@ function reAuthorize(){
 }
 
 reAuthorize();
+
