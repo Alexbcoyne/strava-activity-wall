@@ -1,7 +1,6 @@
 const auth_link = "https://www.strava.com/oauth/token";
 
 function getActivities(res) {
-    const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
     var cal = new CalHeatMap();
     var datas = [
         {date: 1660375704, value: 15},
@@ -15,23 +14,25 @@ function getActivities(res) {
         }
         return stats;
     };
+    cal.init({
+        domain: "year",
+        subDomain: "day",
+        data: datas,
+        afterLoadData: parser,
+        cellSize: 16,
+        range: 1,
+        legend: [20, 40, 60, 80]
+    });
 
+    const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
     fetch(activities_link)
         .then(res => res.json())
         .then(json => {
             for (let i = 0; i < json.length; i++) {
-                var date = json[i].start_date
-                console.log(date);
+                var date = json[i].start_date;
+                convertDate = Number(new Date(date)) / 1000;
+                console.log(convertDate);
             }
-            cal.init({
-                domain: "year",
-                subDomain: "day",
-                data: datas,
-                afterLoadData: parser,
-                cellSize: 16,
-                range: 1,
-                legend: [20, 40, 60, 80]
-            });
         })
 }
 
