@@ -3,7 +3,11 @@ html {
     padding-left: 50px;
 }
 
-.container {
+h1 {
     font-family: sans-serif;
-    font-size: 22px;
+    background-color: #FC4C02;
+    color: #FFF;
+    font-size: 36px;
+    font-weight: 120;
+    display: inline-block;
 }
