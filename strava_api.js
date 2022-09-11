@@ -3,10 +3,9 @@ const auth_link = "https://www.strava.com/oauth/token";
 function getActivities(res) {
     var cal = new CalHeatMap();
     var datas = [
-        {date: 1660375704, value: 15},
-        {date: 1660548504, value: 25},
-        {date: 1660725704, value: 10},
-    ];
+        {date: getDate(res), value: 30}
+    ]
+
     var parser = function(data) {
         var stats = {};
         for (var d in data) {
@@ -23,17 +22,6 @@ function getActivities(res) {
         range: 1,
         legend: [20, 40, 60, 80]
     });
-
-    const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
-    fetch(activities_link)
-        .then(res => res.json())
-        .then(json => {
-            for (let i = 0; i < json.length; i++) {
-                var date = json[i].start_date;
-                convertDate = Number(new Date(date)) / 1000;
-                console.log(convertDate);
-            }
-        })
 }
 
 function reAuthorize(){
@@ -56,3 +44,18 @@ function reAuthorize(){
 
 reAuthorize();
 
+function getDate(res) {
+    const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
+    let convertDate = 0;
+    fetch(activities_link)
+        .then(res => res.json())
+        .then(json => {
+            for (var data of json) {
+                convertDate = Number(new Date(data.start_date)) / 1000;
+                console.log(convertDate);
+            }
+            return convertDate;
+        })
+        .catch(error => new Error(error))
+    
+}
