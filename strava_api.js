@@ -18,7 +18,7 @@ function convertActivityLog(res) {
         data: dataJSON,
         cellSize: 16,
         range: 1,
-        legend: [600, 1800, 3600, 7200] // 10, 20, 30, 45, 60, 90, 120, 180, 240,
+        legend: [600, 1800, 3600, 7200]
     });
 }
 
