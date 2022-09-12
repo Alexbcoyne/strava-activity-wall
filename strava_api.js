@@ -7,7 +7,7 @@ function convertActivityLog(res) {
 
     for (let i = 0; i < data.length; i++) {
         convertDate = Number(new Date(data[i].start_date)) / 1000; // get and convert start_date to epoch
-        movingTime = data[i].moving_time / 400; // divide by 400 (TBD) to show length of activity in an intensity form
+        movingTime = data[i].moving_time; // divide by 400 (TBD) to show length of activity in an intensity form
         dataJSON[convertDate] = movingTime
     }
 
@@ -18,7 +18,7 @@ function convertActivityLog(res) {
         data: dataJSON,
         cellSize: 16,
         range: 1,
-        legend: [20, 40, 60, 80]
+        legend: [600, 1800, 3600, 7200] // 10, 20, 30, 45, 60, 90, 120, 180, 240,
     });
 }
 
