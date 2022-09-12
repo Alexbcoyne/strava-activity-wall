@@ -1,25 +1,21 @@
 const auth_link = "https://www.strava.com/oauth/token";
 
-function getActivities(res) {
-    var cal = new CalHeatMap();
-    var datas = getDate(res)
+function convertActivityLog(res) {
+    var data = getDate(res)
     var dataJSON = {}
+    data = JSON.parse(data)
 
-    datas = JSON.parse(datas)
-
-    for (let i = 0; i < datas.length; i++) {
-        convertDate = Number(new Date(datas[i].start_date)) / 1000, [i];
-        movingTime = datas[i].moving_time / 400;
-
+    for (let i = 0; i < data.length; i++) {
+        convertDate = Number(new Date(data[i].start_date)) / 1000; // get and convert start_date to epoch
+        movingTime = data[i].moving_time / 400; // divide by 400 (TBD) to show length of activity in an intensity form
         dataJSON[convertDate] = movingTime
     }
-    console.log(dataJSON);
 
-    cal.init({
+    var cal = new CalHeatMap();
+    cal.init({ 
         domain: "year",
         subDomain: "day",
         data: dataJSON,
-        afterLoadData: dataJSON,
         cellSize: 16,
         range: 1,
         legend: [20, 40, 60, 80]
@@ -33,7 +29,6 @@ function reAuthorize(){
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-
         body: JSON.stringify({
             client_id: '93196',
             client_secret: '49ffc5e4c547bb5b35aaee4406eef40497633a6e',
@@ -41,10 +36,8 @@ function reAuthorize(){
             grant_type: 'refresh_token'
         })
     }).then(res => res.json())
-        .then(res => getActivities(res))
+        .then(res => convertActivityLog(res))
 }
-
-reAuthorize();
 
 function getDate(res) {
     const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
@@ -61,11 +54,4 @@ function getDate(res) {
     return result;
 }
 
-var parser = function(data) {
-    var dataJSON = {};
-    for(var i=0; i<data.length; i++) {
-        convertDate = Number(new Date(datas[i].start_date)) / 1000 // Date of activity
-        console.log(convertDate)
-    }
-    return dataJSON;
-};
+reAuthorize();
