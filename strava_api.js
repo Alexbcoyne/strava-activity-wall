@@ -46,16 +46,25 @@ reAuthorize();
 
 function getDate(res) {
     const activities_link = `https://www.strava.com/api/v3/athlete/activities?access_token=${res.access_token}`;
-    let convertDate = 0;
-    fetch(activities_link)
-        .then(res => res.json())
-        .then(json => {
-            for (var data of json) {
-                convertDate = Number(new Date(data.start_date)) / 1000;
-                console.log(convertDate);
-            }
-            return convertDate;
-        })
-        .catch(error => new Error(error))
-    
+    // return fetch(activities_link)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //         console.log(json)
+    //     })
+    //     .catch(error => new Error(error))
+    // $.getJSON(activities_link, function(data) {
+    //     console.log(data)
+    // })
+
+    var result = null;
+    $.ajax({
+        url: activities_link,
+        type: 'get',
+        dataType: 'html',
+        async: false,
+        success: function(data) {
+            result = data;
+        }
+    });
+    return result;
 }
